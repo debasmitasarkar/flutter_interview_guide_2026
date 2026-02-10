@@ -271,6 +271,7 @@ final router = GoRouter(
       builder: (context, state) => HomeScreen(),
       routes: [
         GoRoute(
+          name: 'product',
           path: 'products/:id',
           builder: (context, state) {
             final id = state.pathParameters['id']!;
@@ -1188,7 +1189,7 @@ class PermissionService {
       final opened = await _showSettingsDialog(context, rationale);
       if (opened) {
         // Check again after returning from settings
-        return await permission.status.isGranted;
+        return (await permission.status).isGranted;
       }
       return false;
     }
@@ -1600,9 +1601,8 @@ lcov --summary coverage/lcov.info | grep "lines" | awk '{print $2}' | \
 - Platform channel glue code
 - UI layout code (use golden tests instead)
 
-```yaml
+```bash
 # Exclude generated files from coverage in lcov
-# coverage_helper.sh
 lcov --remove coverage/lcov.info \
   '**/*.g.dart' \
   '**/*.freezed.dart' \
